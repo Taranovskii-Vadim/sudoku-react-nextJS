@@ -1,5 +1,7 @@
 import Router from "next/router";
 
+import Button from "../../components/Button";
+
 const Games = () => {
   const ids = ["1", "2", "3", "4", "5", "6", "7", "8"];
   return (
@@ -35,21 +37,13 @@ const Games = () => {
           );
         })}
       </div>
-      <button
-        style={{
-          cursor: "pointer",
-          border: "none",
-          padding: "15px",
-          textTransform: "uppercase",
-          letterSpacing: 0.5,
-          borderRadius: "5px",
-          backgroundColor: "#4849f9",
-          color: "#fff",
-          width: "100%",
+      <Button
+        label="Добавить игру"
+        styles={{ width: "100%" }}
+        onClick={() => {
+          console.log("this is add new game button");
         }}
-      >
-        Добавить игру
-      </button>
+      />
     </div>
   );
 };
