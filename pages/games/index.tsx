@@ -1,9 +1,15 @@
+import { useState } from "react";
 import Router from "next/router";
 
 import Button from "../../components/Button";
 
-const Games = () => {
-  const ids = ["1", "2", "3", "4", "5", "6", "7", "8"];
+interface Props {
+  ids: string[];
+}
+
+const Games = ({ ids }: Props): JSX.Element => {
+  const [data, setData] = useState<string[]>(() => ids);
+
   return (
     <div>
       <div
@@ -14,10 +20,10 @@ const Games = () => {
           maxWidth: 700,
         }}
       >
-        {ids.map((id) => {
+        {data.map((item) => {
           return (
             <div
-              key={id}
+              key={item}
               style={{
                 display: "flex",
                 cursor: "pointer",
@@ -30,9 +36,9 @@ const Games = () => {
                 borderRadius: "5px",
                 color: "#4849f9",
               }}
-              onClick={() => Router.push(`/games/${id}`)}
+              onClick={() => Router.push(`/games/${item}`)}
             >
-              {id}
+              {item}
             </div>
           );
         })}
@@ -47,5 +53,12 @@ const Games = () => {
     </div>
   );
 };
+
+export async function getServerSideProps() {
+  const response = await fetch("http://localhost:3000/api/games");
+  const { result } = await response.json();
+
+  return { props: { ids: result.map(({ id }: { id: string }) => id) } };
+}
 
 export default Games;
