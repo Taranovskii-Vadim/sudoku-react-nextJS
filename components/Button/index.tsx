@@ -3,13 +3,19 @@ import { CSSProperties } from "react";
 interface Props {
   label: string;
   styles?: CSSProperties;
+  disabled?: boolean;
   onClick: () => void;
 }
 
-const Button = ({ label, styles, onClick }: Props): JSX.Element => (
+const Button = ({
+  label,
+  styles,
+  disabled = false,
+  onClick,
+}: Props): JSX.Element => (
   <button
     style={{
-      cursor: "pointer",
+      cursor: disabled ? "not-allowed" : "pointer",
       border: "none",
       padding: "15px",
       textTransform: "uppercase",
@@ -19,6 +25,7 @@ const Button = ({ label, styles, onClick }: Props): JSX.Element => (
       color: "#fff",
       ...styles,
     }}
+    disabled={disabled}
     onClick={onClick}
   >
     {label}

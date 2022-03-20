@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 import Button from "../../components/Button";
@@ -6,8 +7,12 @@ interface Props {
   data: string[][];
 }
 
+// TODO include UI library
+
 const Game = ({ data }: Props): JSX.Element => {
+  const { query } = useRouter();
   const [dataField, onChangeDataField] = useState(() => data);
+  const [isSolved, setIsSolved] = useState(() => false);
 
   const onHandleChange = (y: number, x: number, value: string): void => {
     onChangeDataField(
@@ -23,6 +28,21 @@ const Game = ({ data }: Props): JSX.Element => {
         return yItem;
       })
     );
+  };
+
+  const onHandleSendData = async () => {
+    const response = await fetch("http://localhost:3000/api/games/check", {
+      method: "POST",
+      body: JSON.stringify({ id: query.id, data: dataField }),
+    });
+    const { wrongPositions } = (await response.json()) as {
+      wrongPositions: { x: number; y: number }[];
+    };
+    if (wrongPositions.length) {
+      console.log("there are mistakes in solution");
+    } else {
+      setIsSolved(true);
+    }
   };
 
   return (
@@ -64,9 +84,10 @@ const Game = ({ data }: Props): JSX.Element => {
             })}
           </div>
           <Button
-            label="Проверить решение"
+            label={isSolved ? "Решено" : "Проверить решение"}
+            disabled={isSolved}
             styles={{ width: "100%", marginTop: "30px" }}
-            onClick={() => console.log(dataField)}
+            onClick={onHandleSendData}
           />
         </>
       ) : (
