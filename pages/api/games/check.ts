@@ -80,16 +80,42 @@ const solveSudokuFor = (id: string): string[][] => {
     return sudoku;
   };
 
-  return template ? getSolution(template.data) : [];
+  return template
+    ? getSolution(
+        template.data.map((yItem) => {
+          return yItem.map((xItem) => xItem.value);
+        })
+      )
+    : [];
+};
+
+const checkSolution = (
+  payload: { value: string; isCorrect: boolean }[][],
+  result: string[][]
+): { value: string; isCorrect: boolean }[][] => {
+  for (let y = 0; y < payload.length; y++) {
+    for (let x = 0; x < payload[y].length; x++) {
+      if (payload[y][x].value && payload[y][x].value !== result[y][x]) {
+        payload[y][x].isCorrect = false;
+      }
+    }
+  }
+
+  return payload;
 };
 
 export default function checkResult(req: NextApiRequest, res: NextApiResponse) {
   const { body } = req;
-  const { id, data } = JSON.parse(body) as { id: string; data: string[][] };
+  const { id, data } = JSON.parse(body) as {
+    id: string;
+    data: { value: string; isCorrect: boolean }[][];
+  };
+
   const solvedSudoku = solveSudokuFor(id);
+  const result = checkSolution(data, solvedSudoku);
 
   if (solvedSudoku.length) {
-    res.json({ wrongPositions: [] });
+    res.json({ result });
   } else {
     res.json({ error: "wrong id" });
   }

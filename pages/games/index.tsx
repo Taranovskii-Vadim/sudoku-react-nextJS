@@ -11,37 +11,37 @@ const Games = ({ ids }: Props): JSX.Element => {
   const [data, setData] = useState<string[]>(() => ids);
 
   return (
+    // TODO useless div block
     <div>
       <div
         style={{
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "space-between",
+          marginBottom: "15px",
           maxWidth: 700,
         }}
       >
-        {data.map((item) => {
-          return (
-            <div
-              key={item}
-              style={{
-                display: "flex",
-                cursor: "pointer",
-                justifyContent: "center",
-                alignItems: "center",
-                width: "150px",
-                height: "150px",
-                border: "1px solid #4849f9",
-                marginBottom: "30px",
-                borderRadius: "5px",
-                color: "#4849f9",
-              }}
-              onClick={() => Router.push(`/games/${item}`)}
-            >
-              {item}
-            </div>
-          );
-        })}
+        {data.map((item, index) => (
+          <div
+            key={item}
+            style={{
+              display: "flex",
+              cursor: "pointer",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "150px",
+              height: "150px",
+              border: "1px solid #4849f9",
+              marginRight: index !== data.length - 1 ? "15px" : "",
+              borderRadius: "5px",
+              color: "#4849f9",
+            }}
+            onClick={() => Router.push(`/games/${item}`)}
+          >
+            {item}
+          </div>
+        ))}
       </div>
       <Button
         label="Добавить игру"

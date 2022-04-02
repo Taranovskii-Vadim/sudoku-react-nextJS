@@ -4,7 +4,7 @@ import { useState } from "react";
 import Button from "../../components/Button";
 
 interface Props {
-  data: string[][];
+  data: { value: string; isCorrect: boolean }[][];
 }
 
 // TODO include UI library
@@ -12,7 +12,6 @@ interface Props {
 const Game = ({ data }: Props): JSX.Element => {
   const { query } = useRouter();
   const [dataField, onChangeDataField] = useState(() => data);
-  const [isSolved, setIsSolved] = useState(() => false);
 
   const onHandleChange = (y: number, x: number, value: string): void => {
     onChangeDataField(
@@ -20,7 +19,7 @@ const Game = ({ data }: Props): JSX.Element => {
         if (yIndex === y) {
           return yItem.map((xItem, xIndex) => {
             if (xIndex === x) {
-              return value;
+              return { value, isCorrect: true };
             }
             return xItem;
           });
@@ -35,14 +34,9 @@ const Game = ({ data }: Props): JSX.Element => {
       method: "POST",
       body: JSON.stringify({ id: query.id, data: dataField }),
     });
-    const { wrongPositions } = (await response.json()) as {
-      wrongPositions: { x: number; y: number }[];
-    };
-    if (wrongPositions.length) {
-      console.log("there are mistakes in solution");
-    } else {
-      setIsSolved(true);
-    }
+
+    const { result } = await response.json();
+    onChangeDataField(result);
   };
 
   return (
@@ -55,37 +49,34 @@ const Game = ({ data }: Props): JSX.Element => {
               flexDirection: "column",
             }}
           >
-            {dataField.map((row, yIndex) => {
-              return (
-                <div key={`${row[0]}${yIndex}`}>
-                  {row.map((item, xIndex) => (
-                    <input
-                      max={9}
-                      value={item}
-                      disabled={!!item}
-                      key={`${item}${xIndex}`}
-                      style={{
-                        width: "40px",
-                        height: "40px",
-                        borderLeft: "none",
-                        borderTop: "none",
-                        borderColor: "black",
-                        boxSizing: "border-box",
-                        paddingLeft: "15px",
-                        color: "black",
-                      }}
-                      onChange={(e) =>
-                        onHandleChange(yIndex, xIndex, e.target.value)
-                      }
-                    />
-                  ))}
-                </div>
-              );
-            })}
+            {dataField.map((row, yIndex) => (
+              <div key={`${row[0]}${yIndex}`}>
+                {row.map(({ value, isCorrect }, xIndex) => (
+                  <input
+                    max={9}
+                    value={value}
+                    disabled={!!value}
+                    key={`${value}${xIndex}`}
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderLeft: "none",
+                      borderTop: "none",
+                      borderColor: "black",
+                      boxSizing: "border-box",
+                      paddingLeft: "15px",
+                      color: !isCorrect ? "red" : "black",
+                    }}
+                    onChange={(e) =>
+                      onHandleChange(yIndex, xIndex, e.target.value)
+                    }
+                  />
+                ))}
+              </div>
+            ))}
           </div>
           <Button
-            label={isSolved ? "Решено" : "Проверить решение"}
-            disabled={isSolved}
+            label="Проверить решение"
             styles={{ width: "100%", marginTop: "30px" }}
             onClick={onHandleSendData}
           />
@@ -102,7 +93,7 @@ export async function getServerSideProps({ params }: any) {
   const response = await fetch(`http://localhost:3000/api/games/${id}`);
   const { result } = await response.json();
 
-  return { props: { data: result ? result.data : [] } };
+  return { props: { data: result } };
 }
 
 export default Game;
