@@ -32,7 +32,7 @@ const Game = ({ data }: Props): JSX.Element => {
   const onHandleSendData = async () => {
     const response = await fetch("http://localhost:3000/api/games/check", {
       method: "POST",
-      body: JSON.stringify({ id: query.id, data: dataField }),
+      body: JSON.stringify({ id: query.levelId, data: dataField }),
     });
 
     const { result } = await response.json();

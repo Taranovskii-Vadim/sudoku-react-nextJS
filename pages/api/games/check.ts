@@ -3,7 +3,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { EXAMPLE } from "../../../constants";
 
 // can storage answers in db, but i want to create function that can solve sudoku
-const solveSudokuFor = (id: string): string[][] => {
+const solveSudokuFor = (): string[][] => {
+  // TODO here we must have real value not an example
   const template = EXAMPLE;
 
   const getSolution = (sudoku: string[][]): string[][] => {
@@ -111,12 +112,8 @@ export default function checkResult(req: NextApiRequest, res: NextApiResponse) {
     data: { value: string; isCorrect: boolean }[][];
   };
 
-  const solvedSudoku = solveSudokuFor(id);
+  const solvedSudoku = solveSudokuFor();
   const result = checkSolution(data, solvedSudoku);
 
-  if (solvedSudoku.length) {
-    res.json({ result });
-  } else {
-    res.json({ error: "wrong id" });
-  }
+  res.json({ result });
 }
