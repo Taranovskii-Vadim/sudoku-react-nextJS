@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { result } from "../../../db";
+import { EXAMPLE } from "../../../constants";
 
 // can storage answers in db, but i want to create function that can solve sudoku
 const solveSudokuFor = (id: string): string[][] => {
-  const template = result.find((item) => item.id === id);
+  const template = EXAMPLE;
 
   const getSolution = (sudoku: string[][]): string[][] => {
     const size = sudoku.length;
@@ -82,7 +82,7 @@ const solveSudokuFor = (id: string): string[][] => {
 
   return template
     ? getSolution(
-        template.data.map((yItem) => {
+        template.map((yItem) => {
           return yItem.map((xItem) => xItem.value);
         })
       )
