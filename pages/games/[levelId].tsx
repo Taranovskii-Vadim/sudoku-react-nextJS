@@ -4,14 +4,15 @@ import { useState } from "react";
 import Button from "../../components/Button";
 
 interface Props {
-  data: { value: string; isCorrect: boolean }[][];
+  data: { id: string; template: { value: string; isCorrect: boolean }[][] };
 }
 
 // TODO include UI library
 
 const Game = ({ data }: Props): JSX.Element => {
+  const { id, template } = data;
   const { query } = useRouter();
-  const [dataField, onChangeDataField] = useState(() => data);
+  const [dataField, onChangeDataField] = useState(() => template);
 
   const onHandleChange = (y: number, x: number, value: string): void => {
     onChangeDataField(
@@ -32,7 +33,8 @@ const Game = ({ data }: Props): JSX.Element => {
   const onHandleSendData = async () => {
     const response = await fetch("http://localhost:3000/api/games/check", {
       method: "POST",
-      body: JSON.stringify({ id: query.levelId, data: dataField }),
+      // TODO send an id
+      body: JSON.stringify({ id, levelId: query.levelId, data: dataField }),
     });
 
     const { result } = await response.json();
