@@ -1,6 +1,5 @@
 import { EXAMPLE } from "./constants";
-
-export type LevelType = "easy" | "medium" | "hard";
+import { LevelType } from "./types";
 
 export type Template = {
   value: string;

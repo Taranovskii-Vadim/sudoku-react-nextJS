@@ -1,7 +1,9 @@
 import Router from "next/router";
 
+import { LevelType } from "../../types";
+
 interface Props {
-  levels: string[];
+  levels: LevelType[];
 }
 
 const Games = ({ levels }: Props): JSX.Element => (
@@ -13,9 +15,9 @@ const Games = ({ levels }: Props): JSX.Element => (
       width: 600,
     }}
   >
-    {levels.map((item, index) => (
+    {levels.map((level, index) => (
       <div
-        key={item}
+        key={`${level}${index}`}
         style={{
           display: "flex",
           cursor: "pointer",
@@ -28,9 +30,9 @@ const Games = ({ levels }: Props): JSX.Element => (
           borderRadius: "5px",
           color: "#4849f9",
         }}
-        onClick={() => Router.push(`/games/${item}`)}
+        onClick={() => Router.push(`/games/${level}`)}
       >
-        {item}
+        {level}
       </div>
     ))}
   </div>
@@ -38,7 +40,8 @@ const Games = ({ levels }: Props): JSX.Element => (
 
 export async function getServerSideProps() {
   const response = await fetch("http://localhost:3000/api/levels");
-  const { result } = await response.json();
+  const parsed = await response.json();
+  const { result } = parsed as { result: LevelType[] };
 
   return { props: { levels: result } };
 }

@@ -8,6 +8,7 @@ interface Props {
 }
 
 // TODO include UI library
+// TODO add more games
 
 const Game = ({ data }: Props): JSX.Element => {
   const { id, template } = data;
@@ -33,7 +34,6 @@ const Game = ({ data }: Props): JSX.Element => {
   const onHandleSendData = async () => {
     const response = await fetch("http://localhost:3000/api/games/check", {
       method: "POST",
-      // TODO send an id
       body: JSON.stringify({ id, levelId: query.levelId, data: dataField }),
     });
 
