@@ -1,15 +1,5 @@
 import { EXAMPLE } from "./constants";
-import { LevelType } from "./types";
-
-export type Template = {
-  value: string;
-  isCorrect: boolean;
-};
-
-export type Game = {
-  id: string;
-  template: Template[][];
-};
+import { Game, LevelType } from "./types";
 
 type DataBase = {
   [key in LevelType]: Game[];

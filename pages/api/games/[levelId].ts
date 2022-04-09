@@ -1,12 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { EXAMPLE } from "../../../constants";
-import { BASE, LevelType } from "../../../database";
+import { BASE } from "../../../database";
+import { LevelType } from "../../../types";
 
-export default function getByLevelId(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+export default function getById(req: NextApiRequest, res: NextApiResponse) {
   const levelId = req.query.levelId as LevelType;
 
   const games = BASE[levelId];

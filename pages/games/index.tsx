@@ -1,6 +1,6 @@
 import Router from "next/router";
 
-import { LevelType } from "../../types";
+import { LevelType, Result } from "../../types";
 
 interface Props {
   levels: LevelType[];
@@ -41,7 +41,7 @@ const Games = ({ levels }: Props): JSX.Element => (
 export async function getServerSideProps() {
   const response = await fetch("http://localhost:3000/api/levels");
   const parsed = await response.json();
-  const { result } = parsed as { result: LevelType[] };
+  const { result } = parsed as Result<LevelType[]>;
 
   return { props: { levels: result } };
 }
