@@ -1,5 +1,3 @@
-export type LevelType = "easy" | "medium" | "hard";
-
 export interface Result<T> {
   result: T;
 }

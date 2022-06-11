@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { useRouter } from "next/router";
-import { GetServerSidePropsContext } from "next";
 
 import Button from "../../components/Button";
 import { Game, Result } from "../../types";
@@ -13,7 +11,6 @@ interface Props {
 
 const Game = ({ game }: Props): JSX.Element => {
   const { id, template } = game;
-  const { query } = useRouter();
   const [data, onChangeData] = useState(() => template);
 
   const onHandleChange = (y: number, x: number, value: string): void => {
@@ -33,9 +30,9 @@ const Game = ({ game }: Props): JSX.Element => {
   };
 
   const onHandleSendData = async (): Promise<void> => {
-    const body = JSON.stringify({ id, levelId: query.levelId, data });
+    const body = JSON.stringify({ id, data });
     const config = { method: "POST", body };
-    const resp = await fetch("http://localhost:3000/api/games/check", config);
+    const resp = await fetch("http://localhost:3000/api/game/check", config);
     // TODO carry on refactor check function
     const { result } = await resp.json();
     onChangeData(result);
@@ -83,11 +80,8 @@ const Game = ({ game }: Props): JSX.Element => {
   );
 };
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { params } = context;
-  const { levelId } = params as { levelId: string };
-
-  const response = await fetch(`http://localhost:3000/api/games/${levelId}`);
+export async function getServerSideProps() {
+  const response = await fetch("http://localhost:3000/api/game");
   const parsed = await response.json();
   const { result } = parsed as Result<Game>;
 
