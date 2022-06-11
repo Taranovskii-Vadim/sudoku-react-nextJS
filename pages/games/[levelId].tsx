@@ -10,7 +10,6 @@ interface Props {
 }
 
 // TODO include UI library
-// TODO add more games
 
 const Game = ({ game }: Props): JSX.Element => {
   const { id, template } = game;
@@ -43,7 +42,9 @@ const Game = ({ game }: Props): JSX.Element => {
   };
 
   return (
-    <div>
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
       <div
         style={{
           display: "flex",

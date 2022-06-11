@@ -1,4 +1,73 @@
-export const EXAMPLE = [
+export const EASY_EXAMPLE = [
+  [
+    { value: "2", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "3", isCorrect: true },
+  ],
+  [
+    { value: "1", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "", isCorrect: true },
+  ],
+  [
+    { value: "", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "1", isCorrect: true },
+  ],
+];
+
+export const MEDIUM_EXAMPLE = [
+  [
+    { value: "1", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "3", isCorrect: true },
+    { value: "4", isCorrect: true },
+    { value: "", isCorrect: true },
+  ],
+  [
+    { value: "3", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "2", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "", isCorrect: true },
+  ],
+  [
+    { value: "", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "3", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "6", isCorrect: true },
+    { value: "", isCorrect: true },
+  ],
+  [
+    { value: "2", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "", isCorrect: true },
+  ],
+  [
+    { value: "", isCorrect: true },
+    { value: "4", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "5", isCorrect: true },
+  ],
+  [
+    { value: "", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "1", isCorrect: true },
+    { value: "", isCorrect: true },
+    { value: "2", isCorrect: true },
+    { value: "4", isCorrect: true },
+  ],
+];
+
+export const HARD_EXAMPLE = [
   [
     { value: "5", isCorrect: true },
     { value: "3", isCorrect: true },

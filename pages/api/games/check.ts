@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { EXAMPLE } from "../../../constants";
-import { BASE, Game, LevelType } from "../../../database";
+import { BASE } from "../../../database";
+import { Game, LevelType } from "../../../types";
 
 // can storage answers in db, but i want to create function that can solve sudoku
 const solveSudokuFor = (level: LevelType, id: string): string[][] => {
