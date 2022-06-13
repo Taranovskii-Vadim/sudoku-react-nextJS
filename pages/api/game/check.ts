@@ -3,6 +3,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { BASE } from "../../../database";
 import { Game } from "../../../types";
 
+interface Payload {
+  id: string;
+  data: { value: string; isCorrect: boolean }[][];
+}
+
 // can storage answers in db, but i want to create function that can solve sudoku
 const solveSudokuFor = (id: string): string[][] => {
   const { template } = BASE.find((item) => item.id === id) as Game;
@@ -107,13 +112,9 @@ const checkSolution = (
 
 export default function checkResult(req: NextApiRequest, res: NextApiResponse) {
   const { body } = req;
-  const { id, data } = JSON.parse(body) as {
-    id: string;
-    data: { value: string; isCorrect: boolean }[][];
-  };
+  const { id, data } = JSON.parse(body) as Payload;
 
   const solvedSudoku = solveSudokuFor(id);
-
   const result = checkSolution(data, solvedSudoku);
 
   res.json({ result });

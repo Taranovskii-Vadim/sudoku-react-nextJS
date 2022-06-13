@@ -33,7 +33,6 @@ const Game = ({ game }: Props): JSX.Element => {
     const body = JSON.stringify({ id, data });
     const config = { method: "POST", body };
     const resp = await fetch("http://localhost:3000/api/game/check", config);
-    // TODO carry on refactor check function
     const { result } = await resp.json();
     onChangeData(result);
   };
